@@ -1,0 +1,757 @@
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      /* Full page background with shadow effect */
+      background-image: url('assets/images/prison.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      /* Black shadow effect - dark overlay on entire page */
+      box-shadow: inset 0 0 0 60vw rgba(0, 0, 0, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* main card — clean facebook‑like split */
+    .login-container {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      height: 100vh;
+      position: relative;
+      /* Background now on body with black shadow effect - container is transparent */
+      background: transparent;
+      backdrop-filter: blur(0.5px);
+      border-radius: 12px;
+      box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Removed ::before overlay - now handled by body box-shadow */
+
+    /* ensure panels render above overlay */
+    .left-panel,
+    .right-panel,
+    .form-card,
+    .brand-row {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* LEFT PANEL — Ghana Prisons branding, clean & minimal (like facebook left) */
+    .left-panel {
+      flex: 1 1 45%;
+      background: transparent;
+      padding: 3.5rem 2.5rem 3.5rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* Enhanced branding area */
+      position: relative;
+    }
+
+    /* Decorative glow behind branding */
+    .left-panel::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(ellipse at center, rgba(201, 165, 92, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* logo + title row */
+    .brand-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-frame {
+      width: 220px;
+      height: 220px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 
+        0 20px 40px -10px rgba(0, 0, 0, 0.5),
+        0 0 0 3px rgba(255, 255, 255, 0.1) inset,
+        0 0 60px rgba(201, 165, 92, 0.2) inset;
+      border: 3px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(15px);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: logoFloat 4s ease-in-out infinite;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .logo-frame:hover {
+      transform: scale(1.08) translateY(-5px);
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.6),
+        0 0 0 4px rgba(255, 255, 255, 0.2) inset,
+        0 0 80px rgba(201, 165, 92, 0.3) inset;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .logo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* fallback if logo fails */
+    .logo-fallback {
+      display: none;
+      font-size: 4rem;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 0 20px rgba(201, 165, 92, 0.5);
+    }
+
+    .brand-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-text h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(201, 165, 92, 0.3);
+      animation: titleSlideIn 0.8s ease-out;
+    }
+
+    @keyframes titleSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .brand-text .sub {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 400;
+      margin-top: 0.5rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      animation: subFadeIn 1s ease-out 0.3s both;
+    }
+
+    /* Secured Management System - Special tagline */
+    .brand-text .sut1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-top: 0.3rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      animation: subFadeIn 1s ease-out 0.5s both;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    @keyframes securePulse {
+      0%, 100% { 
+        text-shadow: 
+          0 0 20px rgba(255, 255, 255, 0.3),
+          0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+      50% { 
+        text-shadow: 
+          0 0 30px rgba(255, 255, 255, 0.5),
+          0 0 60px rgba(255, 255, 255, 0.2),
+          0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    @keyframes subFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* big "recent logins" hint — mimics facebook's "recent logins" */
+    .recent-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 2rem 0 0.5rem 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .recent-sub {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 1.8rem;
+      border-left: 4px solid #c9a55c;
+      padding-left: 1rem;
+    }
+
+    /* simple profile previews (like facebook shows) */
+    .profile-grid {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 1.5rem;
+      padding: 1.5rem 1rem 1rem 1rem;
+      text-align: center;
+      width: 130px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .profile-card:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .profile-card .avatar {
+      width: 75px;
+      height: 75px;
+      background: linear-gradient(135deg, rgba(201, 165, 92, 0.3), rgba(139, 105, 20, 0.3));
+      border-radius: 50%;
+      margin: 0 auto 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #c9a55c;
+      font-size: 2.5rem;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-card .name {
+      font-weight: 550;
+      color: #ffffff;
+      font-size: 1rem;
+    }
+
+    .profile-card .role {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 0.25rem;
+    }
+
+    /* right panel — login form (exactly facebook style) */
+    .right-panel {
+      flex: 1 1 45%;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem;
+    }
+
+    .form-card {
+      width: 100%;
+      max-width: 430px;
+      /* Enhanced glassmorphism effect */
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 1.8rem;
+      padding: 2.4rem 2rem 2.8rem;
+      box-shadow: 
+        0 12px 28px rgba(90, 60, 30, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+        0 0 40px rgba(0, 0, 0, 0.1) inset;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      /* Subtle animation */
+      animation: formCardFadeIn 0.6s ease-out;
+    }
+
+    @keyframes formCardFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-card h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 0.3rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-card .connect {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 0.7rem;
+    }
+
+    /* input fields — clean & large */
+    .input-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 60px;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      padding: 0.1rem 1.2rem;
+      transition: 0.3s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) inset;
+    }
+
+    .input-field i {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.3rem;
+      width: 2.2rem;
+      transition: 0.3s;
+    }
+
+    .input-field input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 1rem 0.5rem 1rem 0;
+      font-size: 1.1rem;
+      outline: none;
+      color: #ffffff;
+    }
+
+    .input-field input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 350;
+    }
+
+    .input-field:focus-within {
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1), 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+    }
+
+    .input-field:focus-within i {
+      color: #ffffff;
+    }
+
+    /* login button — solid, facebook style */
+    .login-btn {
+      background: linear-gradient(135deg, #c9a55c 0%, #8b6914 100%);
+      border: none;
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 600;
+      padding: 1rem 1.8rem;
+      width: 100%;
+      border-radius: 60px;
+      margin: 1.2rem 0 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 10px 20px -8px rgba(139, 105, 20, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .login-btn:hover {
+      background: linear-gradient(135deg, #ddb76a 0%, #a37d1a 100%);
+      transform: translateY(-2px);
+      box-shadow: 
+        0 14px 24px -6px rgba(139, 105, 20, 0.6),
+        0 4px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+      box-shadow: 
+        0 6px 12px -4px rgba(139, 105, 20, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .login-btn i {
+      margin-right: 0.5rem;
+    }
+
+    /* links row */
+    .links-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 1rem 0 1.8rem 0;
+    }
+
+    .forgot-link {
+      color: #c9a55c;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      border-bottom: 1px dashed rgba(201, 165, 92, 0.5);
+      transition: 0.3s;
+    }
+
+    .forgot-link:hover {
+      color: #ffffff;
+      border-bottom-color: #ffffff;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.95rem;
+    }
+
+    .remember input {
+      accent-color: #c9a55c;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+
+    /* divider / create account (like facebook) */
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 1.2rem 0 1.8rem;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    }
+
+    .divider-text {
+      color: rgba(255, 255, 255, 0.6);
+      padding: 0 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .create-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding: 0.9rem 1.8rem;
+      border-radius: 60px;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .create-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* extra small text */
+    .footer-meta {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: center;
+    }
+
+    .footer-meta a {
+      color: #c9a55c;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .footer-meta a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* responsiveness */
+    @media (max-width: 800px) {
+      .login-container {
+        flex-direction: column;
+        padding: 1rem;
+      }
+      .left-panel {
+        padding: 2rem 1.5rem;
+        text-align: center;
+      }
+      .brand-row {
+        justify-content: center;
+      }
+      .brand-text {
+        text-align: center;
+      }
+      .right-panel {
+        padding: 1.5rem;
+      }
+      .logo-frame {
+        width: 140px;
+        height: 140px;
+      }
+      .brand-text h1 {
+        font-size: 1.6rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        min-height: 100vh;
+        height: auto;
+        border-radius: 0;
+      }
+      .left-panel {
+        padding: 1.5rem 1rem;
+      }
+      .logo-frame {
+        width: 110px;
+        height: 110px;
+      }
+      .brand-text h1 {
+        font-size: 1.3rem;
+      }
+      .brand-text .sut1 {
+        font-size: 0.9rem;
+      }
+      .brand-text .sub {
+        font-size: 0.8rem;
+      }
+      .right-panel {
+        padding: 1rem 0.8rem;
+      }
+      .form-card {
+        padding: 1.2rem 1rem;
+      }
+      .form-card h2 {
+        font-size: 1.4rem;
+      }
+    }
+
+    /* Login message styles */
+    .login-message {
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .login-message.info {
+      display: block;
+      background: rgba(59, 130, 246, 0.15);
+      color: #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .login-message.success {
+      display: block;
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .login-message.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* Touch device optimizations */
+    @media (hover: none) and (pointer: coarse) {
+      .login-btn,
+      .create-btn,
+      .forgot-link {
+        min-height: 44px;
+      }
+      .input-field input {
+        min-height: 44px;
+      }
+    }
+
+    /* High DPI displays */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+
+    /* Landscape orientation on short screens */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .login-container {
+        flex-direction: row;
+        height: auto;
+        min-height: 100vh;
+        padding: 1rem;
+      }
+      .left-panel,
+      .right-panel {
+        flex: 1;
+        padding: 0.8rem;
+      }
+      .brand-row {
+        flex-direction: row;
+        gap: 0.8rem;
+        margin-bottom: 0.5rem;
+      }
+      .logo-frame {
+        width: 80px;
+        height: 80px;
+        padding: 8px;
+      }
+      .brand-text h1 {
+        font-size: 1.3rem;
+      }
+      .brand-text .sUT1,
+      .brand-text .sub {
+        display: none;
+      }
+      .form-card {
+        padding: 1rem;
+      }
+      .form-card h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.2rem;
+      }
+      .form-card .connect {
+        margin-bottom: 1rem;
+        padding-bottom: 0.4rem;
+      }
+      .input-group {
+        margin-bottom: 0.8rem;
+      }
+      .login-btn {
+        margin: 0.8rem 0 0.5rem;
+        padding: 0.6rem 1rem;
+      }
+      .divider {
+        margin: 0.8rem 0;
+      }
+    }
+
+    /* Clickable circular logo and modal styles */
+    .logo-img {
+      width: 88%;
+      height: 88%;
+      object-fit: cover;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: block;
+    }
+    .logo-img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .modal.show { display: flex; }
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(2px);
+    }
+    .modal-content {
+      position: relative;
+      z-index: 10000;
+      max-width: 90vmin;
+      max-height: 90vmin;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content img {
+      width: 80vmin;
+      height: 80vmin;
+      border-radius: 50%;
+      object-fit: contain;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      background: white;
+      padding: 1vmin;
+    }
+    .modal-close {
+      position: absolute;
+      top: -1.2rem;
+      right: -1.2rem;
+      background: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 2.4rem;
+      height: 2.4rem;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      z-index: 10001;
+    }
+
+    @media (max-width: 480px) {
+      .modal-content img { width: 70vmin; height: 70vmin; }
+    }
+
