@@ -535,5 +535,209 @@ Password: Admin@123
 ```
 ```
 
+## 📋 Prisoners Management Page
+
+### Features
+- **Prisoner List Table** - View all inmates with sorting and filtering
+- **Stats Cards** - Total prisoners, new admissions, pending releases, high-risk count
+- **Search & Filter** - Search by name, ID, case number; Filter by block, status, security, gender
+- **Detail Modal** - View full prisoner profile with 5 tabs (Personal, Case, Medical, Assignment, Property)
+- **Quick Actions** - Edit, Transfer, Discipline, Medical updates
+- **Pagination** - Ready for large datasets
+- **Select All** - Bulk action support
+
+### API Endpoints Required
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/prisoners` | Get all prisoners | Yes |
+| GET | `/api/prisoners/:id` | Get single prisoner | Yes |
+| GET | `/api/prisoners/stats` | Get prisoner statistics | Yes |
+| GET | `/api/prisoners/search?q=term` | Search prisoners | Yes |
+| PUT | `/api/prisoners/:id` | Update prisoner details | Yes |
+| POST | `/api/transfers` | Transfer prisoner to new block | Yes |
+| POST | `/api/discipline` | Add disciplinary record | Yes |
+| PUT | `/api/medical/:inmate_id` | Update medical record | Yes |
+
+### Frontend → Backend Connection
+
+**All buttons already trigger functions in `script.js`:**
+- `openPrisonerModal(id)` → Needs `GET /api/prisoners/:id`
+- `editPrisoner(id)` → Needs `GET /api/prisoners/:id` + `PUT /api/prisoners/:id`
+- `transferPrisoner(id)` → Needs `POST /api/transfers`
+- `filterPrisoners()` → Needs `GET /api/prisoners?block=A&status=active`
+
+### Sample API Responses
+
+**GET /api/prisoners**
+```json
+{
+    "success": true,
+    "data": [
+        {
+            "id": "INM-2024-0012",
+            "first_name": "Marcus",
+            "last_name": "Johnson",
+            "age": 38,
+            "gender": "Male",
+            "nationality": "Ghanaian",
+            "block": "A",
+            "cell": "A-104",
+            "security_level": "medium",
+            "offense": "Armed Robbery",
+            "sentence": "15 years",
+            "status": "active",
+            "admission_date": "2024-01-15",
+            "photo": null,
+            "case_number": "CASE-2024-0189",
+            "warrant_number": "WRT-2024-0042"
+        }
+    ],
+    "total": 1247,
+    "page": 1,
+    "per_page": 15
+}
+```
+
+**GET /api/prisoners/stats**
+```json
+{
+    "success": true,
+    "data": {
+        "total": 1247,
+        "new_this_month": 38,
+        "pending_release": 24,
+        "high_risk": 42
+    }
+}
+```
+
+**POST /api/transfers**
+```json
+// Request
+{
+    "inmate_id": "INM-2024-0012",
+    "from_block": "A",
+    "to_block": "B",
+    "new_cell": "B-305",
+    "reason": "Security reassignment",
+    "officer_id": 1
+}
+
+// Response
+{
+    "success": true,
+    "message": "Transfer successful",
+    "data": {
+        "transfer_id": 1,
+        "inmate_id": "INM-2024-0012",
+        "new_block": "B",
+        "new_cell": "B-305",
+        "transfer_date": "2024-01-16"
+    }
+}
+```
+
+**POST /api/discipline**
+```json
+// Request
+{
+    "inmate_id": "INM-2024-0012",
+    "incident": "Fighting in common area",
+    "action_taken": "7 days solitary confinement",
+    "officer_id": 1,
+    "date": "2024-01-16"
+}
+
+// Response
+{
+    "success": true,
+    "message": "Disciplinary record added",
+    "data": {
+        "discipline_id": 1,
+        "inmate_id": "INM-2024-0012",
+        "incident": "Fighting in common area",
+        "action": "7 days solitary confinement",
+        "status": "active"
+    }
+}
+```
+
+**PUT /api/medical/:inmate_id**
+```json
+// Request
+{
+    "notes": "Blood pressure elevated. Prescribed medication.",
+    "checkup_date": "2024-01-16",
+    "officer_id": 1
+}
+
+// Response
+{
+    "success": true,
+    "message": "Medical record updated",
+    "data": {
+        "medical_id": 1,
+        "inmate_id": "INM-2024-0012",
+        "last_checkup": "2024-01-16",
+        "notes": "Blood pressure elevated. Prescribed medication."
+    }
+}
+```
+
+### New Models Added
+
+### 8. Transfer Model
+```
+Table: transfers
+├── id              INTEGER (Primary Key)
+├── inmate_id       INTEGER (Foreign Key → inmates.id)
+├── from_block      VARCHAR(10)
+├── from_cell       VARCHAR(20)
+├── to_block        VARCHAR(10)
+├── to_cell         VARCHAR(20)
+├── reason          TEXT
+├── requested_by    INTEGER (Foreign Key → users.id)
+├── approved_by     INTEGER (Foreign Key → users.id, Nullable)
+├── status          VARCHAR(20) - pending, approved, completed, rejected
+├── transfer_date   DATE
+├── created_at      DATETIME
+└── updated_at      DATETIME
+```
+
+### 9. Discipline Model
+```
+Table: discipline_records
+├── id              INTEGER (Primary Key)
+├── inmate_id       INTEGER (Foreign Key → inmates.id)
+├── incident        TEXT
+├── incident_date   DATE
+├── action_taken    TEXT
+├── reported_by     INTEGER (Foreign Key → users.id)
+├── severity        VARCHAR(20) - minor, moderate, major, critical
+├── status          VARCHAR(20) - active, resolved, appealed
+├── created_at      DATETIME
+└── updated_at      DATETIME
+```
+
+### File Location
+```
+frontend/prisoners/
+├── index.html      # Prisoner list page
+├── style.css       # Styles
+└── script.js       # All interactions (view, edit, transfer, discipline, medical)
+```
+
+### How to Test
+1. Open `frontend/prisoners/index.html` in browser
+2. Click **eye icon** → Opens detail modal with 5 tabs
+3. Click **pencil icon** → Edit prisoner
+4. Click **transfer icon** → Transfer to new block
+5. In modal, click **Transfer/Discipline/Medical** buttons → All work
+6. Use **search bar** and **filters** → Filters table live
+```
+
 ---
+
+
 
