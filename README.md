@@ -739,5 +739,238 @@ frontend/prisoners/
 
 ---
 
+---
+
+---
+
+## 📅 Court Attendance Management Page
+
+### Features
+- **Calendar View** - Monthly calendar with highlighted court dates
+- **Daily Hearings List** - View all hearings for selected date
+- **Upcoming Table** - All scheduled court appearances with filters
+- **Schedule New Court Date** - Modal form to schedule hearings
+- **Record Outcome** - Record verdict (Convicted/Acquitted/Adjourned/Discharged)
+- **Quick Actions** - Adjourn, Cancel, Mark Complete
+- **Stats Cards** - Today's hearings, This week, Pending, Completed
+- **Color Coding** - Yellow=Scheduled, Green=Completed, Orange=Adjourned, Red=Cancelled
+
+### File Location
+```
+frontend/court/
+├── index.html      # Court attendance page
+├── style.css       # Styles with calendar
+└── script.js       # Calendar + hearings + outcomes
+```
+
+### API Endpoints Required
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/court` | Get all court hearings | Yes |
+| GET | `/api/court?date=2024-01-16` | Get hearings by date | Yes |
+| GET | `/api/court?status=scheduled` | Filter by status | Yes |
+| GET | `/api/court/:id` | Get single hearing | Yes |
+| GET | `/api/court/stats` | Get court statistics | Yes |
+| POST | `/api/court` | Schedule new court date | Yes |
+| PUT | `/api/court/:id` | Update hearing (outcome, adjourn) | Yes |
+| DELETE | `/api/court/:id` | Cancel hearing | Yes |
+
+### New Models
+
+### 10. Court Attendance Model
+```
+Table: court_attendances
+├── id                  INTEGER (Primary Key, Auto-increment)
+├── inmate_id           INTEGER (Foreign Key → inmates.id)
+├── case_number         VARCHAR(30)
+├── court_name          VARCHAR(100)
+├── hearing_type        VARCHAR(30) - trial, sentencing, bail, mention, appeal
+├── hearing_date        DATE
+├── hearing_time        TIME
+├── judge_name          VARCHAR(100) (Nullable)
+├── escort_officers     TEXT (Nullable) - Comma-separated officer IDs or names
+├── status              VARCHAR(20) - scheduled, completed, adjourned, cancelled
+├── outcome             VARCHAR(30) (Nullable) - convicted, acquitted, adjourned, discharged
+├── verdict_details     TEXT (Nullable)
+├── judge_remarks       TEXT (Nullable)
+├── officer_report      TEXT (Nullable)
+├── next_hearing_date   DATE (Nullable)
+├── created_by          INTEGER (Foreign Key → users.id)
+├── created_at          DATETIME
+└── updated_at          DATETIME
+```
+
+### 11. Court Outcomes History Model
+```
+Table: court_outcomes
+├── id                  INTEGER (Primary Key, Auto-increment)
+├── court_attendance_id INTEGER (Foreign Key → court_attendances.id)
+├── inmate_id           INTEGER (Foreign Key → inmates.id)
+├── outcome             VARCHAR(30) - convicted, acquitted, adjourned, discharged
+├── sentence_given      VARCHAR(100) (Nullable)
+├── fine_amount         DECIMAL(10,2) (Nullable)
+├── community_service   VARCHAR(100) (Nullable)
+├── verdict_summary     TEXT
+├── recorded_by         INTEGER (Foreign Key → users.id)
+├── recorded_at         DATETIME
+└── created_at          DATETIME
+```
+
+### Sample API Requests & Responses
+
+**GET /api/court/stats**
+```json
+{
+    "success": true,
+    "data": {
+        "today": 8,
+        "this_week": 34,
+        "pending": 52,
+        "completed_this_month": 28
+    }
+}
+```
+
+**GET /api/court?date=2024-01-16**
+```json
+{
+    "success": true,
+    "data": [
+        {
+            "id": 1,
+            "inmate_id": "INM-2024-0012",
+            "prisoner_name": "Marcus Johnson",
+            "case_number": "CASE-2024-0189",
+            "court_name": "High Court - Accra",
+            "hearing_type": "trial",
+            "hearing_date": "2024-01-16",
+            "hearing_time": "09:00",
+            "judge_name": "Justice Abena Mensah",
+            "escort_officers": "Capt. John Mensah, Offc. Grace Tetteh",
+            "status": "scheduled",
+            "outcome": null
+        }
+    ],
+    "total": 2
+}
+```
+
+**POST /api/court (Schedule New Hearing)**
+```json
+// Request
+{
+    "inmate_id": "INM-2024-0012",
+    "case_number": "CASE-2024-0189",
+    "court_name": "High Court - Accra",
+    "hearing_type": "trial",
+    "hearing_date": "2024-02-15",
+    "hearing_time": "09:30",
+    "judge_name": "Justice Abena Mensah",
+    "escort_officers": [1, 4],
+    "notes": "Witness testimony scheduled"
+}
+
+// Response
+{
+    "success": true,
+    "message": "Court date scheduled successfully",
+    "data": {
+        "id": 8,
+        "inmate_id": "INM-2024-0012",
+        "hearing_date": "2024-02-15",
+        "status": "scheduled"
+    }
+}
+```
+
+**PUT /api/court/:id (Record Outcome)**
+```json
+// Request
+{
+    "status": "completed",
+    "outcome": "convicted",
+    "verdict_details": "Found guilty on all counts. Sentenced to 15 years.",
+    "judge_remarks": "Maximum sentence applied due to severity of crime",
+    "officer_report": "Prisoner cooperative throughout proceedings",
+    "sentence_given": "15 years imprisonment"
+}
+
+// Response
+{
+    "success": true,
+    "message": "Outcome recorded successfully",
+    "data": {
+        "id": 1,
+        "status": "completed",
+        "outcome": "convicted",
+        "updated_at": "2024-01-16T12:30:00"
+    }
+}
+```
+
+**PUT /api/court/:id (Adjourn)**
+```json
+// Request
+{
+    "status": "adjourned",
+    "outcome": "adjourned",
+    "next_hearing_date": "2024-02-20",
+    "verdict_details": "Case adjourned pending witness availability"
+}
+
+// Response
+{
+    "success": true,
+    "message": "Hearing adjourned",
+    "data": {
+        "id": 1,
+        "status": "adjourned",
+        "next_hearing_date": "2024-02-20"
+    }
+}
+```
+
+### Status Values Reference
+
+| Field | Accepted Values |
+|-------|----------------|
+| **hearing_type** | `trial`, `sentencing`, `bail`, `mention`, `appeal` |
+| **status** | `scheduled`, `completed`, `adjourned`, `cancelled` |
+| **outcome** | `convicted`, `acquitted`, `adjourned`, `discharged` |
+
+### How Frontend Connects to Backend
+
+| Button/Action | Function | API Call |
+|---------------|----------|----------|
+| Click calendar date | `selectDate()` | `GET /api/court?date=YYYY-MM-DD` |
+| "Record Outcome" | `openOutcomeModal()` | `PUT /api/court/:id` |
+| "Adjourn" | `adjournHearing()` | `PUT /api/court/:id` |
+| "Cancel" | `cancelHearing()` | `DELETE /api/court/:id` |
+| "Schedule Court Date" | Opens modal | `POST /api/court` |
+| Filter dropdowns | `applyFilters()` | `GET /api/court?status=X&type=Y` |
+| Stats cards | `updateStats()` | `GET /api/court/stats` |
+
+### Color Codes
+
+| Status | Calendar Dot | Badge |
+|--------|-------------|-------|
+| Scheduled | 🟡 Brown dot | Yellow badge |
+| Completed | 🟢 Green dot | Green badge |
+| Adjourned | 🟠 Orange dot | Orange badge |
+| Cancelled | 🔴 No dot | Red badge |
+
+### How to Test
+1. Open `frontend/court/index.html`
+2. Click dates on calendar → See hearings for that day
+3. Click **"Record Outcome"** → Fill verdict form
+4. Click **"Adjourn"** → Set new date
+5. Click **"Schedule Court Date"** → Add new hearing
+6. Use **filters** on bottom table
+```
+
+---
+
+
 
 
