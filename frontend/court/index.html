@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS · PMS - Court Attendance</title>
+    
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="app-container">
+        
+        <!-- ==================== SIDEBAR ==================== -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <img src="../assets/images/logo.png" alt="GPS Logo" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fas fa-shield-haltered\'></i>';">
+                </div>
+                <div class="logo-text">
+                    <h2>GPS</h2>
+                    <span>· PMS</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="../dashboard/index.html" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="../prisoners/index.html" class="nav-item">
+                    <i class="fas fa-user-lock"></i>
+                    <span>Prisoners</span>
+                </a>
+                <a href="../admissions/index.html" class="nav-item">
+                    <i class="fas fa-door-open"></i>
+                    <span>Admissions</span>
+                </a>
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-gavel"></i>
+                    <span>Court Attendance</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Sentences</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-notes-medical"></i>
+                    <span>Medical Records</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-box"></i>
+                    <span>Property</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Discipline</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-hands-helping"></i>
+                    <span>Rehabilitation</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Gate Pass</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transfers</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Discharge</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <img src="../assets/images/avatar.png" alt="Officer" onerror="this.style.display='none'">
+                    <div class="user-details">
+                        <h4 id="userName">Ryan</h4>
+                        <span>Admin Officer</span>
+                    </div>
+                </div>
+                <a href="../login/index.html" class="logout-btn" title="Logout">
+                    <i class="fas fa-power-off"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- ==================== MAIN CONTENT ==================== -->
+        <main class="main-content">
+            
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <a href="../dashboard/index.html">Dashboard</a>
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="current">Court Attendance</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" id="scheduleBtn">
+                        <i class="fas fa-plus"></i> Schedule Court Date
+                    </button>
+                </div>
+            </header>
+
+            <!-- Court Content -->
+            <div class="court-content">
+                
+                <!-- Page Title -->
+                <div class="page-title-section">
+                    <h1>Court Attendance Management</h1>
+                    <p>Manage prisoner court appearances, hearings, and outcomes</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon today-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Today's Hearings</p>
+                            <h3 class="stat-value" id="statToday">8</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon week-icon">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">This Week</p>
+                            <h3 class="stat-value" id="statWeek">34</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon pending-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Pending</p>
+                            <h3 class="stat-value" id="statPending">52</h3>
+                            <span class="stat-change neutral">Upcoming</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon completed-icon">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Completed This Month</p>
+                            <h3 class="stat-value" id="statCompleted">28</h3>
+                            <span class="stat-change up">+8 from last month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Two-Column Layout -->
+                <div class="court-layout">
+                    
+                    <!-- Left: Calendar -->
+                    <div class="card calendar-card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-calendar-alt"></i> Calendar</h2>
+                            <div class="calendar-nav">
+                                <button class="btn-icon-sm" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                                <span id="calendarMonth">January 2024</span>
+                                <button class="btn-icon-sm" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Filled by JS -->
+                        </div>
+                        <div class="calendar-legend">
+                            <span><span class="dot scheduled"></span> Scheduled</span>
+                            <span><span class="dot completed"></span> Completed</span>
+                            <span><span class="dot adjourned"></span> Adjourned</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Selected Date Hearings -->
+                    <div class="card hearings-card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-list"></i> Hearings for <span id="selectedDate">Today</span></h2>
+                            <span class="hearing-count" id="hearingCount">8 hearings</span>
+                        </div>
+                        <div class="hearings-list" id="hearingsList">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Upcoming Court Dates Table -->
+                <div class="card table-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-table"></i> All Upcoming Court Dates</h2>
+                        <div class="filter-group">
+                            <select id="filterStatus">
+                                <option value="">All Status</option>
+                                <option value="scheduled">Scheduled</option>
+                                <option value="completed">Completed</option>
+                                <option value="adjourned">Adjourned</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                            <select id="filterType">
+                                <option value="">All Types</option>
+                                <option value="trial">Trial</option>
+                                <option value="sentencing">Sentencing</option>
+                                <option value="bail">Bail Hearing</option>
+                                <option value="mention">Mention</option>
+                            </select>
+                            <input type="date" id="filterDate" title="Filter by date">
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date/Time</th>
+                                    <th>Prisoner</th>
+                                    <th>Case Number</th>
+                                    <th>Court</th>
+                                    <th>Type</th>
+                                    <th>Judge</th>
+                                    <th>Escort Officers</th>
+                                    <th>Status</th>
+                                    <th>Outcome</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="courtTable">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ==================== SCHEDULE MODAL ==================== -->
+    <div class="modal-overlay" id="scheduleModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2><i class="fas fa-calendar-plus"></i> Schedule Court Appearance</h2>
+                <button class="modal-close" id="closeScheduleModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Prisoner <span class="required">*</span></label>
+                        <select id="schedPrisoner">
+                            <option value="">Search & Select Prisoner</option>
+                            <option value="INM-2024-0012">Marcus Johnson (INM-2024-0012)</option>
+                            <option value="INM-2024-0011">Kojo Mensah (INM-2024-0011)</option>
+                            <option value="INM-2024-0010">Abena Dapaah (INM-2024-0010)</option>
+                            <option value="INM-2024-0009">Yaw Boateng (INM-2024-0009)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Case Number</label>
+                        <input type="text" id="schedCase" readonly placeholder="Auto-filled">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Court <span class="required">*</span></label>
+                        <select id="schedCourt">
+                            <option value="">Select Court</option>
+                            <option value="High Court - Accra">High Court - Accra</option>
+                            <option value="Circuit Court - Kumasi">Circuit Court - Kumasi</option>
+                            <option value="District Court - Accra">District Court - Accra</option>
+                            <option value="Supreme Court">Supreme Court</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Hearing Type <span class="required">*</span></label>
+                        <select id="schedType">
+                            <option value="">Select Type</option>
+                            <option value="trial">Trial</option>
+                            <option value="sentencing">Sentencing</option>
+                            <option value="bail">Bail Hearing</option>
+                            <option value="mention">Mention</option>
+                            <option value="appeal">Appeal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date <span class="required">*</span></label>
+                        <input type="date" id="schedDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Time <span class="required">*</span></label>
+                        <input type="time" id="schedTime" value="09:00">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Judge/Magistrate</label>
+                        <input type="text" id="schedJudge" placeholder="Presiding judge">
+                    </div>
+                    <div class="form-group">
+                        <label>Escort Officers</label>
+                        <select id="schedEscorts" multiple>
+                            <option value="1">Captain John Mensah</option>
+                            <option value="2">Lt. Sarah Owusu</option>
+                            <option value="3">Sgt. Kofi Amoah</option>
+                            <option value="4">Offc. Grace Tetteh</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Notes</label>
+                        <textarea id="schedNotes" rows="2" placeholder="Additional notes..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelScheduleBtn">Cancel</button>
+                <button class="btn btn-primary" id="saveScheduleBtn">
+                    <i class="fas fa-save"></i> Schedule Hearing
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== OUTCOME MODAL ==================== -->
+    <div class="modal-overlay" id="outcomeModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2><i class="fas fa-gavel"></i> Record Court Outcome</h2>
+                <button class="modal-close" id="closeOutcomeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="outcome-prisoner-info" id="outcomePrisonerInfo">
+                    <!-- Filled by JS -->
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Outcome <span class="required">*</span></label>
+                        <select id="outcomeResult">
+                            <option value="">Select Outcome</option>
+                            <option value="convicted">Convicted</option>
+                            <option value="acquitted">Acquitted</option>
+                            <option value="adjourned">Adjourned</option>
+                            <option value="discharged">Discharged</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="nextDateGroup" style="display:none;">
+                        <label>Next Court Date</label>
+                        <input type="date" id="outcomeNextDate">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Verdict Details</label>
+                        <textarea id="outcomeVerdict" rows="3" placeholder="Details of the court's decision..."></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Judge Remarks</label>
+                        <textarea id="outcomeRemarks" rows="2" placeholder="Judge's remarks..."></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Officer Report</label>
+                        <textarea id="outcomeReport" rows="2" placeholder="Escort officer's report..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelOutcomeBtn">Cancel</button>
+                <button class="btn btn-primary" id="saveOutcomeBtn">
+                    <i class="fas fa-check-circle"></i> Save Outcome
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
