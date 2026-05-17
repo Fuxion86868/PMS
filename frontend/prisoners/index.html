@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS · PMS - Prisoners</title>
+    
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="app-container">
+        
+        <!-- ==================== SIDEBAR ==================== -->
+        <aside class="sidebar">
+            
+            <!-- Logo -->
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <img src="../assets/images/logo.png" alt="GPS Logo" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fas fa-shield-haltered\'></i>';">
+                </div>
+                <div class="logo-text">
+                    <h2>GPS</h2>
+                    <span>· PMS</span>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="sidebar-nav">
+                <a href="../dashboard/index.html" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-user-lock"></i>
+                    <span>Prisoners</span>
+                </a>
+                <a href="../admissions/index.html" class="nav-item">
+                    <i class="fas fa-door-open"></i>
+                    <span>Admissions</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-gavel"></i>
+                    <span>Court Attendance</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Sentences</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-notes-medical"></i>
+                    <span>Medical Records</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-box"></i>
+                    <span>Property</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Discipline</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-hands-helping"></i>
+                    <span>Rehabilitation</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Gate Pass</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transfers</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Discharge</span>
+                </a>
+            </nav>
+            
+            <!-- User Profile -->
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <img src="../assets/images/avatar.png" alt="Officer" onerror="this.style.display='none'">
+                    <div class="user-details">
+                        <h4 id="userName">Ryan</h4>
+                        <span>Admin Officer</span>
+                    </div>
+                </div>
+                <a href="../login/index.html" class="logout-btn" title="Logout">
+                    <i class="fas fa-power-off"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- ==================== MAIN CONTENT ==================== -->
+        <main class="main-content">
+            
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <a href="../dashboard/index.html">Dashboard</a>
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="current">Prisoners</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <a href="../admissions/index.html" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Admission
+                    </a>
+                </div>
+            </header>
+
+            <!-- Prisoners Content -->
+            <div class="prisoners-content">
+                
+                <!-- Page Title -->
+                <div class="page-title-section">
+                    <h1>Prisoner Management</h1>
+                    <p>View and manage all inmates in the facility</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon total-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Total Prisoners</p>
+                            <h3 class="stat-value">1,247</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon new-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">New This Month</p>
+                            <h3 class="stat-value">38</h3>
+                            <span class="stat-change up">+12%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon pending-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Pending Release</p>
+                            <h3 class="stat-value">24</h3>
+                            <span class="stat-change neutral">Next 30 days</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon highrisk-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">High Risk</p>
+                            <h3 class="stat-value">42</h3>
+                            <span class="stat-change down">-5 this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search & Filters -->
+                <div class="filter-section">
+                    <div class="search-bar-lg">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchPrisoner" placeholder="Search by name, inmate ID, or case number...">
+                    </div>
+                    <div class="filters">
+                        <select id="filterBlock">
+                            <option value="">All Cell Blocks</option>
+                            <option value="A">Block A</option>
+                            <option value="B">Block B</option>
+                            <option value="C">Block C</option>
+                            <option value="D">Block D</option>
+                        </select>
+                        <select id="filterStatus">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="released">Released</option>
+                            <option value="transferred">Transferred</option>
+                            <option value="deceased">Deceased</option>
+                        </select>
+                        <select id="filterSecurity">
+                            <option value="">All Security Levels</option>
+                            <option value="minimum">Minimum</option>
+                            <option value="medium">Medium</option>
+                            <option value="maximum">Maximum</option>
+                            <option value="supermax">Supermax</option>
+                        </select>
+                        <select id="filterGender">
+                            <option value="">All Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        <button class="btn btn-outline" id="clearFilters">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                    </div>
+                    <div class="results-info">
+                        <span id="resultsCount">Showing 1,247 prisoners</span>
+                        <div class="export-btns">
+                            <button class="btn btn-sm btn-outline">
+                                <i class="fas fa-print"></i> Print
+                            </button>
+                            <button class="btn btn-sm btn-outline">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prisoners Table -->
+                <div class="card table-card">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="selectAll"></th>
+                                    <th>Inmate ID</th>
+                                    <th>Photo</th>
+                                    <th>Full Name</th>
+                                    <th>Age/Gender</th>
+                                    <th>Cell Block</th>
+                                    <th>Offense</th>
+                                    <th>Sentence</th>
+                                    <th>Status</th>
+                                    <th>Admission Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prisonersTable">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        <div class="pagination-info">
+                            Showing <strong>1-15</strong> of <strong>1,247</strong>
+                        </div>
+                        <div class="pagination-btns">
+                            <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">...</button>
+                            <button class="page-btn">84</button>
+                            <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ==================== PRISONER DETAIL MODAL ==================== -->
+    <div class="modal-overlay" id="prisonerModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <h2>Prisoner Details</h2>
+                    <span class="inmate-id-badge" id="modalInmateId">INM-2024-0012</span>
+                </div>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                
+                <!-- Prisoner Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-photo" id="modalPhoto">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-info">
+                        <h3 id="modalName">Marcus Johnson</h3>
+                        <div class="profile-meta">
+                            <span><i class="fas fa-venus-mars"></i> <span id="modalGender">Male</span></span>
+                            <span><i class="fas fa-birthday-cake"></i> <span id="modalAge">38</span> years</span>
+                            <span><i class="fas fa-flag"></i> <span id="modalNationality">Ghanaian</span></span>
+                        </div>
+                        <span class="status-badge active" id="modalStatus">Active</span>
+                    </div>
+                </div>
+
+                <!-- Modal Tabs -->
+                <div class="modal-tabs">
+                    <button class="modal-tab active" data-tab="modal-personal">Personal Info</button>
+                    <button class="modal-tab" data-tab="modal-case">Case Details</button>
+                    <button class="modal-tab" data-tab="modal-medical">Medical</button>
+                    <button class="modal-tab" data-tab="modal-assignment">Assignment</button>
+                    <button class="modal-tab" data-tab="modal-property">Property</button>
+                </div>
+
+                <!-- Tab Contents -->
+                <div class="modal-tab-content active" id="modal-personal">
+                    <div class="detail-grid">
+                        <div class="detail-item"><strong>Full Name:</strong> <span id="detailName">Marcus Johnson</span></div>
+                        <div class="detail-item"><strong>Date of Birth:</strong> <span id="detailDob">1985-06-15</span></div>
+                        <div class="detail-item"><strong>National ID:</strong> <span id="detailNationalId">GHA-839201745</span></div>
+                        <div class="detail-item"><strong>Phone:</strong> <span id="detailPhone">+233 24 567 8901</span></div>
+                        <div class="detail-item"><strong>Address:</strong> <span id="detailAddress">15 Independence Avenue, Accra</span></div>
+                        <div class="detail-item"><strong>Marital Status:</strong> <span id="detailMarital">Single</span></div>
+                        <div class="detail-item"><strong>Height:</strong> <span id="detailHeight">178 cm</span></div>
+                        <div class="detail-item"><strong>Weight:</strong> <span id="detailWeight">82 kg</span></div>
+                        <div class="detail-item"><strong>Eye Color:</strong> <span id="detailEyes">Brown</span></div>
+                        <div class="detail-item"><strong>Hair Color:</strong> <span id="detailHair">Black</span></div>
+                        <div class="detail-item"><strong>Distinguishing Marks:</strong> <span id="detailMarks">Scar on left forearm</span></div>
+                        <div class="detail-item"><strong>Next of Kin:</strong> <span id="detailKin">Ama Johnson (Spouse) - +233 24 123 4567</span></div>
+                    </div>
+                </div>
+
+                <div class="modal-tab-content" id="modal-case">
+                    <div class="detail-grid">
+                        <div class="detail-item"><strong>Case Number:</strong> <span id="detailCase">CASE-2024-0189</span></div>
+                        <div class="detail-item"><strong>Warrant Number:</strong> <span id="detailWarrant">WRT-2024-0042</span></div>
+                        <div class="detail-item"><strong>Offense:</strong> <span id="detailOffense">Armed Robbery</span></div>
+                        <div class="detail-item"><strong>Arrest Date:</strong> <span id="detailArrestDate">2024-01-10</span></div>
+                        <div class="detail-item"><strong>Arresting Officer:</strong> <span id="detailArrestingOfficer">Detective Kwame Asante</span></div>
+                        <div class="detail-item"><strong>Court:</strong> <span id="detailCourt">High Court - Accra</span></div>
+                        <div class="detail-item"><strong>Judge:</strong> <span id="detailJudge">Justice Abena Mensah</span></div>
+                        <div class="detail-item"><strong>Sentence:</strong> <span id="detailSentence">15 years</span></div>
+                        <div class="detail-item"><strong>Expected Release:</strong> <span id="detailRelease">2039-01-10</span></div>
+                    </div>
+                </div>
+
+                <div class="modal-tab-content" id="modal-medical">
+                    <div class="detail-grid">
+                        <div class="detail-item"><strong>Blood Group:</strong> <span id="detailBlood">O+</span></div>
+                        <div class="detail-item"><strong>Genotype:</strong> <span id="detailGenotype">AA</span></div>
+                        <div class="detail-item"><strong>Allergies:</strong> <span id="detailAllergies">Penicillin, Peanuts</span></div>
+                        <div class="detail-item"><strong>Chronic Illnesses:</strong> <span id="detailChronic">Mild Asthma</span></div>
+                        <div class="detail-item"><strong>Medications:</strong> <span id="detailMeds">Ventolin Inhaler</span></div>
+                        <div class="detail-item"><strong>Mental Health:</strong> <span id="detailMental">Stable</span></div>
+                    </div>
+                </div>
+
+                <div class="modal-tab-content" id="modal-assignment">
+                    <div class="detail-grid">
+                        <div class="detail-item"><strong>Cell Block:</strong> <span id="detailBlock">Block A</span></div>
+                        <div class="detail-item"><strong>Cell Number:</strong> <span id="detailCell">A-104</span></div>
+                        <div class="detail-item"><strong>Security Level:</strong> <span id="detailSecurity">Medium</span></div>
+                        <div class="detail-item"><strong>Assigned Officer:</strong> <span id="detailOfficer">Captain John Mensah</span></div>
+                        <div class="detail-item"><strong>Admission Date:</strong> <span id="detailAdmissionDate">2024-01-15</span></div>
+                        <div class="detail-item"><strong>Instructions:</strong> <span id="detailInstructions">Monitor for 72 hours</span></div>
+                    </div>
+                </div>
+
+                <div class="modal-tab-content" id="modal-property">
+                    <div class="detail-grid">
+                        <div class="detail-item"><strong>Items:</strong> <span id="detailItems">Wrist Watch, Wallet</span></div>
+                        <div class="detail-item"><strong>Cash Deposited:</strong> <span id="detailCash">GHS 450.00</span></div>
+                        <div class="detail-item"><strong>Valuables:</strong> <span id="detailValuables">Gold chain, 1 wedding ring</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Actions -->
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="btnTransfer">
+                    <i class="fas fa-exchange-alt"></i> Transfer
+                </button>
+                <button class="btn btn-outline" id="btnDiscipline">
+                    <i class="fas fa-exclamation-circle"></i> Discipline
+                </button>
+                <button class="btn btn-outline" id="btnMedical">
+                    <i class="fas fa-notes-medical"></i> Medical
+                </button>
+                <button class="btn btn-primary" id="btnEdit">
+                    <i class="fas fa-edit"></i> Edit Record
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
