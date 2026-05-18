@@ -969,6 +969,265 @@ Table: court_outcomes
 6. Use **filters** on bottom table
 ```
 
+## 🚪 Discharge Management Page
+
+### Features
+- **Stats Cards** - Pending, Today's, This Month, Total Completed discharges
+- **Pending Discharges List** - Quick view of upcoming releases with process buttons
+- **Release Checklist** - 8-item verification checklist (Medical, Property, Admin, Court, Security, Records, Biometric, Gate Pass)
+- **Process Discharge Modal** - Complete discharge form with prisoner selection, type, reason, authority, destination
+- **Discharge Types** - Release (Sentence Complete), Court Order (Acquitted/Bail), Transfer Out, Parole, Death, Escape
+- **View Discharge** - Detailed view of any discharge record
+- **Save as Draft** - Save incomplete discharge for later
+- **Print Discharge** - Print discharge document
+- **Cancel Discharge** - Cancel pending discharges
+- **Filter Table** - Filter by type, status, and date
+
+### File Location
+```
+frontend/discharge/
+├── index.html      # Discharge management page
+├── style.css       # Styles with checklist
+└── script.js       # Discharge processing logic
+```
+
+### API Endpoints Required
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/discharge` | Get all discharge records | Yes |
+| GET | `/api/discharge?status=pending` | Filter by status | Yes |
+| GET | `/api/discharge/:id` | Get single discharge | Yes |
+| GET | `/api/discharge/stats` | Get discharge statistics | Yes |
+| POST | `/api/discharge` | Create new discharge (draft or complete) | Yes |
+| PUT | `/api/discharge/:id` | Update discharge (complete checklist) | Yes |
+| PUT | `/api/discharge/:id/cancel` | Cancel discharge | Yes |
+| GET | `/api/discharge/:id/print` | Generate printable discharge document | Yes |
+
+### New Models
+
+### 12. Discharge Model
+```
+Table: discharges
+├── id                  INTEGER (Primary Key, Auto-increment)
+├── discharge_id        VARCHAR(20) (Unique) - e.g., DIS-2024-0012
+├── inmate_id           INTEGER (Foreign Key → inmates.id)
+├── discharge_type      VARCHAR(30) - release, court_order, transfer_out, parole, death, escape
+├── reason              TEXT
+├── discharge_date      DATE
+├── authorizing_officer VARCHAR(100)
+├── destination         VARCHAR(255) (Nullable)
+├── witness_officer_id  INTEGER (Foreign Key → users.id, Nullable)
+├── processed_by        INTEGER (Foreign Key → users.id)
+├── status              VARCHAR(20) - pending, in_progress, completed, cancelled
+├── notes               TEXT (Nullable)
+├── created_at          DATETIME
+└── updated_at          DATETIME
+```
+
+### 13. Discharge Checklist Model
+```
+Table: discharge_checklists
+├── id                  INTEGER (Primary Key, Auto-increment)
+├── discharge_id        INTEGER (Foreign Key → discharges.id)
+├── medical_clearance   BOOLEAN (Default: false)
+├── property_returned   BOOLEAN (Default: false)
+├── admin_clearance     BOOLEAN (Default: false)
+├── court_order_verified BOOLEAN (Default: false)
+├── security_clearance  BOOLEAN (Default: false)
+├── records_updated     BOOLEAN (Default: false)
+├── biometric_scan      BOOLEAN (Default: false)
+├── gate_pass_issued    BOOLEAN (Default: false)
+├── verified_by         INTEGER (Foreign Key → users.id, Nullable)
+├── verified_at         DATETIME
+├── created_at          DATETIME
+└── updated_at          DATETIME
+```
+
+### 14. Discharge History Model
+```
+Table: discharge_history
+├── id                  INTEGER (Primary Key, Auto-increment)
+├── discharge_id        INTEGER (Foreign Key → discharges.id)
+├── inmate_id           INTEGER (Foreign Key → inmates.id)
+├── action              VARCHAR(50) - created, updated, checklist_updated, completed, cancelled
+├── details             TEXT
+├── performed_by        INTEGER (Foreign Key → users.id)
+├── performed_at        DATETIME
+└── created_at          DATETIME
+```
+
+### Sample API Requests & Responses
+
+**GET /api/discharge/stats**
+```json
+{
+    "success": true,
+    "data": {
+        "pending": 12,
+        "today": 3,
+        "this_month": 28,
+        "total_completed": 1892
+    }
+}
+```
+
+**GET /api/discharge?status=pending**
+```json
+{
+    "success": true,
+    "data": [
+        {
+            "id": "DIS-2024-0011",
+            "inmate_id": "INM-2023-0150",
+            "prisoner_name": "Kwame Nkrumah",
+            "discharge_type": "court_order",
+            "reason": "Acquitted by High Court",
+            "discharge_date": "2024-01-16",
+            "authorizing_officer": "Deputy Warden Comfort Asare",
+            "status": "pending",
+            "checklist_completed": 0
+        }
+    ],
+    "total": 12
+}
+```
+
+**POST /api/discharge (Save as Draft)**
+```json
+// Request
+{
+    "inmate_id": "INM-2024-0012",
+    "discharge_type": "release",
+    "reason": "Sentence completed - 15 years",
+    "discharge_date": "2039-01-10",
+    "authorizing_officer": "Warden James Appiah",
+    "destination": "15 Independence Avenue, Accra",
+    "status": "draft",
+    "processed_by": 1
+}
+
+// Response
+{
+    "success": true,
+    "message": "Discharge saved as draft",
+    "data": {
+        "discharge_id": "DIS-2024-0013",
+        "status": "draft"
+    }
+}
+```
+
+**PUT /api/discharge/:id (Complete Discharge with Checklist)**
+```json
+// Request
+{
+    "status": "completed",
+    "checklist": {
+        "medical_clearance": true,
+        "property_returned": true,
+        "admin_clearance": true,
+        "court_order_verified": true,
+        "security_clearance": true,
+        "records_updated": true,
+        "biometric_scan": true,
+        "gate_pass_issued": true
+    },
+    "witness_officer_id": 2,
+    "notes": "All clearances obtained. Prisoner released to family."
+}
+
+// Response
+{
+    "success": true,
+    "message": "Discharge completed successfully",
+    "data": {
+        "discharge_id": "DIS-2024-0013",
+        "status": "completed",
+        "completed_at": "2039-01-10T10:30:00",
+        "gate_pass_number": "GP-2024-0891"
+    }
+}
+```
+
+**PUT /api/discharge/:id/cancel**
+```json
+// Request
+{
+    "reason": "Discharge order revoked by court"
+}
+
+// Response
+{
+    "success": true,
+    "message": "Discharge cancelled",
+    "data": {
+        "discharge_id": "DIS-2024-0011",
+        "status": "cancelled"
+    }
+}
+```
+
+### Discharge Types Reference
+
+| Type | Code | Description |
+|------|------|-------------|
+| Release | `release` | Sentence completed |
+| Court Order | `court_order` | Acquitted, bailed, or discharged by court |
+| Transfer Out | `transfer_out` | Moving to another facility |
+| Parole | `parole` | Approved for early release |
+| Death | `death` | Deceased in custody |
+| Escape | `escape` | Escaped from facility |
+
+### Release Checklist Items
+
+| # | Check | Description |
+|---|-------|-------------|
+| 1 | Medical Clearance | Final medical check completed |
+| 2 | Property Returned | All personal items returned |
+| 3 | Admin Clearance | All paperwork processed |
+| 4 | Court Order Verified | Release order authenticated |
+| 5 | Security Clearance | Final security check done |
+| 6 | Records Updated | Prisoner file closed |
+| 7 | Biometric Scan | Final fingerprint scan |
+| 8 | Gate Pass Issued | Exit pass generated |
+
+### Status Values Reference
+
+| Status | Description |
+|--------|-------------|
+| `pending` | Scheduled but not started |
+| `in_progress` | Checklist being completed |
+| `completed` | All checks done, prisoner released |
+| `cancelled` | Discharge cancelled/reversed |
+| `draft` | Saved but not submitted |
+
+### How Frontend Connects to Backend
+
+| Button/Action | Function | API Call |
+|---------------|----------|----------|
+| "Process Discharge" | `processDischarge()` | Opens modal with pre-filled data |
+| "Complete Discharge" | Button in modal | `PUT /api/discharge/:id` |
+| "Save Draft" | Button in modal | `POST /api/discharge` (status: draft) |
+| "View" (eye icon) | `viewDischarge()` | `GET /api/discharge/:id` |
+| "Cancel" (X icon) | `cancelDischarge()` | `PUT /api/discharge/:id/cancel` |
+| "Print" | `printDischarge()` | `GET /api/discharge/:id/print` |
+| Filter dropdowns | `applyFilters()` | `GET /api/discharge?status=X&type=Y` |
+| Stats cards | `updateStats()` | `GET /api/discharge/stats` |
+
+### How to Test
+1. Open `frontend/discharge/index.html`
+2. View **pending discharges** in left panel
+3. Click **"Process Discharge"** → Complete checklist → Submit
+4. Click **"New Discharge"** button → Fill form → Save or Complete
+5. Use **filters** on bottom table to find records
+6. Click **eye icon** to view discharge details
+7. Click **X icon** to cancel a discharge
+```
+
+---
+
+
 ---
 
 
