@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS · PMS - Discharge</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="app-container">
+        
+        <!-- ==================== SIDEBAR ==================== -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <img src="../assets/images/logo.png" alt="GPS Logo" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fas fa-shield-haltered\'></i>';">
+                </div>
+                <div class="logo-text">
+                    <h2>GPS</h2>
+                    <span>· PMS</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="../dashboard/index.html" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="../prisoners/index.html" class="nav-item">
+                    <i class="fas fa-user-lock"></i>
+                    <span>Prisoners</span>
+                </a>
+                <a href="../admissions/index.html" class="nav-item">
+                    <i class="fas fa-door-open"></i>
+                    <span>Admissions</span>
+                </a>
+                <a href="../court/index.html" class="nav-item">
+                    <i class="fas fa-gavel"></i>
+                    <span>Court Attendance</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Sentences</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-notes-medical"></i>
+                    <span>Medical Records</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-box"></i>
+                    <span>Property</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Discipline</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-hands-helping"></i>
+                    <span>Rehabilitation</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Gate Pass</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transfers</span>
+                </a>
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Discharge</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <img src="../assets/images/avatar.png" alt="Officer" onerror="this.style.display='none'">
+                    <div class="user-details">
+                        <h4 id="userName">Ryan</h4>
+                        <span>Admin Officer</span>
+                    </div>
+                </div>
+                <a href="../login/index.html" class="logout-btn" title="Logout">
+                    <i class="fas fa-power-off"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- ==================== MAIN CONTENT ==================== -->
+        <main class="main-content">
+            
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <a href="../dashboard/index.html">Dashboard</a>
+                        <i class="fas fa-chevron-right"></i>
+                        <span class="current">Discharge</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" id="newDischargeBtn">
+                        <i class="fas fa-sign-out-alt"></i> Process Discharge
+                    </button>
+                </div>
+            </header>
+
+            <div class="discharge-content">
+                
+                <div class="page-title-section">
+                    <h1>Discharge Management</h1>
+                    <p>Process prisoner releases, transfers out, and manage discharge records</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon pending-discharge-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Pending Discharges</p>
+                            <h3 class="stat-value" id="statPending">12</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon today-discharge-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Today's Discharges</p>
+                            <h3 class="stat-value" id="statToday">3</h3>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon month-discharge-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">This Month</p>
+                            <h3 class="stat-value" id="statMonth">28</h3>
+                            <span class="stat-change up">+5 from last month</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon completed-discharge-icon">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Total Completed</p>
+                            <h3 class="stat-value" id="statTotal">1,892</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two Column Layout -->
+                <div class="discharge-layout">
+                    
+                    <!-- Left: Pending Discharges -->
+                    <div class="card pending-card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-hourglass-half"></i> Pending Discharges</h2>
+                            <span class="badge-count" id="pendingCount">12</span>
+                        </div>
+                        <div class="pending-list" id="pendingList">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Discharge Checklist Preview -->
+                    <div class="card checklist-card">
+                        <div class="card-header">
+                            <h2><i class="fas fa-clipboard-check"></i> Release Checklist</h2>
+                        </div>
+                        <div class="checklist-preview">
+                            <div class="checklist-item">
+                                <input type="checkbox" id="checkMedical">
+                                <label for="checkMedical">Medical clearance obtained</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="checkProperty">
+                                <label for="checkProperty">All property returned</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="checkAdmin">
+                                <label for="checkAdmin">Administrative clearance</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="checkCourt">
+                                <label for="checkCourt">Court/release order verified</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="checkSecurity">
+                                <label for="checkSecurity">Security clearance</label>
+                            </div>
+                            <div class="checklist-item">
+                                <input type="checkbox" id="checkRecords">
+                                <label for="checkRecords">Records updated</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discharge Table -->
+                <div class="card table-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-list"></i> All Discharge Records</h2>
+                        <div class="filter-group">
+                            <select id="filterType">
+                                <option value="">All Types</option>
+                                <option value="release">Release</option>
+                                <option value="transfer_out">Transfer Out</option>
+                                <option value="court_order">Court Order</option>
+                                <option value="death">Death</option>
+                            </select>
+                            <select id="filterStatus">
+                                <option value="">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="in_progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                            <input type="date" id="filterDate">
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Discharge ID</th>
+                                    <th>Prisoner</th>
+                                    <th>Type</th>
+                                    <th>Reason</th>
+                                    <th>Discharge Date</th>
+                                    <th>Authority</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dischargeTable">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ==================== DISCHARGE PROCESS MODAL ==================== -->
+    <div class="modal-overlay" id="dischargeModal">
+        <div class="modal-container modal-lg">
+            <div class="modal-header">
+                <h2><i class="fas fa-sign-out-alt"></i> Process Discharge</h2>
+                <button class="modal-close" id="closeDischargeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <!-- Prisoner Selection -->
+                <div class="form-section">
+                    <h3 class="section-title">Prisoner Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Select Prisoner <span class="required">*</span></label>
+                            <select id="disPrisoner">
+                                <option value="">Search & Select Prisoner</option>
+                                <option value="INM-2024-0012">Marcus Johnson (INM-2024-0012)</option>
+                                <option value="INM-2024-0011">Kojo Mensah (INM-2024-0011)</option>
+                                <option value="INM-2024-0010">Abena Dapaah (INM-2024-0010)</option>
+                                <option value="INM-2024-0009">Yaw Boateng (INM-2024-0009)</option>
+                                <option value="INM-2024-0008">Ama Serwaa (INM-2024-0008)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Prisoner Status</label>
+                            <input type="text" id="disCurrentStatus" readonly placeholder="Auto-filled">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discharge Details -->
+                <div class="form-section">
+                    <h3 class="section-title">Discharge Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Discharge Type <span class="required">*</span></label>
+                            <select id="disType">
+                                <option value="">Select Type</option>
+                                <option value="release">Release (Sentence Complete)</option>
+                                <option value="court_order">Court Order (Acquitted/Bail)</option>
+                                <option value="transfer_out">Transfer to Another Facility</option>
+                                <option value="parole">Parole</option>
+                                <option value="death">Death</option>
+                                <option value="escape">Escape</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Discharge Date <span class="required">*</span></label>
+                            <input type="date" id="disDate">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Reason/Remarks <span class="required">*</span></label>
+                            <textarea id="disReason" rows="2" placeholder="Reason for discharge..."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Authorizing Officer <span class="required">*</span></label>
+                            <select id="disAuthority">
+                                <option value="">Select Officer</option>
+                                <option value="1">Warden - James Appiah</option>
+                                <option value="2">Deputy Warden - Comfort Asare</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Destination/Address</label>
+                            <input type="text" id="disDestination" placeholder="Where prisoner is going">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Release Checklist -->
+                <div class="form-section">
+                    <h3 class="section-title">Release Checklist</h3>
+                    <div class="checklist-grid">
+                        <label class="checklist-label">
+                            <input type="checkbox" class="disCheck" data-check="medical">
+                            <span><i class="fas fa-notes-medical"></i> Medical Clearance</span>
+                        </label>
+                        <label class="checklist-label">
+                            <input type="checkbox" class="disCheck" data-check="property">
+                            <span><i class="fas fa-box"></i> Property Returned</span>
+                        </label>
+                        <label class="checklist-label">
+                            <input type="checkbox" class="disCheck" data-check="admin">
+                            <span><i class="fas fa-file-alt"></i> Admin Clearance</span>
+                        </label>
+                        <label class="checklist-label">
+                            <input type="checkbox" class="disCheck" data-check="court">
+                            <span><i class="fas fa-gavel"></i> Court Order Verified</span>
+                        </label>
+                        <label class="checklist-label">
+                            <input type="checkbox" class="disCheck" data-check="security">
+                            <span><i class="fas fa-shield-alt"></i> Security Clearance</span>
+                        </label>
+                        <label class="checklist-label">
+                            <input type="checkbox" class="disCheck" data-check="records">
+                            <span><i class="fas fa-database"></i> Records Updated</span>
+                        </label>
+                        <label class="checklist-label">
+                            <input type="checkbox" class="disCheck" data-check="fingerprint">
+                            <span><i class="fas fa-fingerprint"></i> Final Biometric Scan</span>
+                        </label>
+                        <label class="checklist-label">
+                            <input type="checkbox" class="disCheck" data-check="gatepass">
+                            <span><i class="fas fa-ticket-alt"></i> Gate Pass Issued</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Witness -->
+                <div class="form-section">
+                    <h3 class="section-title">Witness & Confirmation</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Witness Officer</label>
+                            <select id="disWitness">
+                                <option value="">Select Witness</option>
+                                <option value="1">Captain John Mensah</option>
+                                <option value="2">Lt. Sarah Owusu</option>
+                                <option value="3">Sgt. Kofi Amoah</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Processed By</label>
+                            <input type="text" value="Officer Ryan" readonly>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelDischargeBtn">Cancel</button>
+                <button class="btn btn-outline" id="saveDraftDischargeBtn">
+                    <i class="fas fa-save"></i> Save Draft
+                </button>
+                <button class="btn btn-primary" id="completeDischargeBtn">
+                    <i class="fas fa-check-circle"></i> Complete Discharge
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VIEW DISCHARGE MODAL ==================== -->
+    <div class="modal-overlay" id="viewDischargeModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2><i class="fas fa-eye"></i> Discharge Details</h2>
+                <button class="modal-close" id="closeViewModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="viewDischargeContent">
+                <!-- Filled by JS -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="printDischargeBtn">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="btn btn-primary" id="closeViewBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
